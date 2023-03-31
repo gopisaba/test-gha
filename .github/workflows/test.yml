@@ -1,0 +1,26 @@
+on:
+  workflow_dispatch:
+      dry_run:
+        description: Run only Liquibase plan
+        required: false
+        default: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  create_rfc:
+    name: Create RFC
+    if: ${{ always() && ! inputs.dry_run }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: RFC
+        run: echo hello
+  another_job:
+    name: Another job
+    runs-on: ubuntu-latest
+    steps:
+      - name: job1
+        if: ${{ ! inputs.dry_run }}
+        run: echo I am in
