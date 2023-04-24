@@ -2,6 +2,11 @@ name: Test
 on:
   workflow_dispatch:
     inputs:
+      test_var:
+        description: Run only Liquibase plan
+        type: boolean
+        required: false
+        default: false
       dry_run:
         description: Run only Liquibase plan
         required: false
@@ -14,15 +19,9 @@ defaults:
 jobs:
   create_rfc:
     name: Create RFC
-    if: ${{ always() && ! inputs.dry_run }}
     runs-on: ubuntu-latest
     steps:
       - name: RFC
-        run: echo hello
-  another_job:
-    name: Another job
-    runs-on: ubuntu-latest
-    steps:
-      - name: job1
-        if: ${{ ! inputs.dry_run }}
-        run: echo I am in
+        run: |-
+          echo ${{ inputs.dry_run }}
+          echo ${{ inputs.test_var }}
